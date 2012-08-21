@@ -1,4 +1,7 @@
 //{{{
+/** 
+AppJS Support tested with TikiWiki 2.6.5 October 6, 2011
+**/
 window.saveChanges = function(onlyIfDirty,tiddlers)
 {
 	if(onlyIfDirty && !store.isDirty())
