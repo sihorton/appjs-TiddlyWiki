@@ -26,5 +26,7 @@ app.js adds externalJsLoad() function and externalJsSave() function to the windo
 (tiddlywiki sees the protocol is not file:// and so defaults to readOnly = true). I have also added an isExternalJsSave property
 to the window object so that it is easy to check if you are running within appjs.
 
+Search for "AppJS" within the TiddlyWiki code to see what changes have been made.
+
 
 
