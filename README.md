@@ -15,10 +15,8 @@ You can download AppJS with TiddlyWiki containing the AppJS plugin that lets you
 
 Plugin
 ======
-You can add your plugin to an existing TiddlyWiki by creating a new tiddler and copy in the contents from this link: 
-https://github.com/sihorton/appjs-TiddlyWiki/blob/master/AppJS-plugin-tiddler.txt
-You must give the tiddler a tag of "systemConfig" in order for it to work. Once the plugin tiddler is saved you can then
-replace data/content/index.html with your TiddlyWiki file.
+The AppJS Plugin is hosted at http://sihorton.tiddlyspace.com/ 
+
 
 Advantages
 ----------
