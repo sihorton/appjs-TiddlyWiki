@@ -1,32 +1,47 @@
-appjs-TiddlyWiki
+AppJS-TiddlyWiki
 ================
 
-An experiment to port TiddlyWiki to AppJS
+A port of http://tiddlywiki.com/ to http://appjs.org/ (which uses http://nodejs.org/). The end result is a wiki packaged together 
+with a webkit browser (the browser used on iphone / ipad / android). This is very suitable for running from a usb-stick and 
+allows you to take your wiki with you wherever you go!
 
-Extract a zip of the contents of this repository or git clone into the data directory of an AppJS install.
+You may need to click "AdvancedOptions" in the blue sidebar on the right. Uncheck "Hide editing features when viewed over HTTP" (chkHttpReadOnly).
+Check "AutoSave" to persist changes as soon as you close a tiddler / page.
 
 Quick Download
 ==============
 
-You can download AppJS with this code added to it from the following links:
+You can download AppJS with built in TiddlyWiki from the following download links:
 
-* linux-32bit: https://github.com/downloads/sihorton/appjs-TiddlyWiki/appjs-0.0.18-linux-ia32.tar.gz
-* windows: https://github.com/downloads/sihorton/appjs-TiddlyWiki/appjs-tiddlywiki-win32-ia32.zip
+* linux-32bit: https://github.com/downloads/sihorton/appjs-TiddlyWiki/appjs-tiddlywiki-linux-ia32.tar.gz
+* windows: https://github.com/downloads/sihorton/appjs-TiddlyWiki/appjs-tiddlywiki-win32.zip
 
-Status
-======
+The code to work in internet explorer / firefox and other browsers is still intact so you are able to use the same index.html
+in both AppJS and a normal browser interchangeably.
 
-Currently TiddlyWiki is able to create new tiddlers and edit existing ones. It is able to save to disk but unfortunately 
-the contents of the file is not correct so changes are lost.
+Advantages
+----------
+* taking the browser with you means it won't break after getting some kind of auto update.
+* no complex procedures or permissions dialogs are needed, it is able to save out of the box
 
-Design
-======
+Disadvantages
+-------------
+* it takes extra space (20 meg+)
+* not all plugins / functions may work
 
-app.js adds externalJsLoad() function and externalJsSave() function to the window object. It also sets the readOnly property to false 
-(tiddlywiki sees the protocol is not file:// and so defaults to readOnly = true). I have also added an isExternalJsSave property
-to the window object so that it is easy to check if you are running within appjs.
+
+Developers
+==========
+
+Upon startup AppJS adds an allowSave flag together with an externalJsSave() function and externalJsLoad() function. These 
+functions allow TiddlyWiki to use the nodejs backend to load and save files. The tiddlywiki code also had to be modified 
+where it was checking to make sure that a file:// url was being used.
 
 Search for "AppJS" within the TiddlyWiki code to see what changes have been made.
+
+Currently plugins may break when running within AppJS the main reason for this tends to be checks for the file:// protocol
+being used (we don't use that protocol but still support saving).
+
 
 
 
