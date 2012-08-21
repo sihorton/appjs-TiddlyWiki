@@ -1,20 +1,18 @@
-appjs-TiddlyWiki
+AppJS-TiddlyWiki
 ================
 
-An experiment to port TiddlyWiki to AppJS
-
-Extract a zip of the contents of this repository or git clone into the data directory of an AppJS install.
+A port of http://tiddlywiki.com/ to http://appjs.org/
 
 Quick Download
 ==============
 
-You can download AppJS with this code added to it from the following links:
+You can download AppJS with built in TiddlyWiki from the following download links:
 
 * linux-32bit: https://github.com/downloads/sihorton/appjs-TiddlyWiki/appjs-0.0.18-linux-ia32.tar.gz
-* windows: https://github.com/downloads/sihorton/appjs-TiddlyWiki/appjs-tiddlywiki-win32-ia32.zip
+* windows: https://github.com/downloads/sihorton/appjs-TiddlyWiki/appjs-tiddlywiki-win32.zip
 
-Status
-======
+Developers
+==========
 
 Currently TiddlyWiki is able to create new tiddlers and edit existing ones. It is able to save to disk but unfortunately 
 the contents of the file is not correct so changes are lost.
