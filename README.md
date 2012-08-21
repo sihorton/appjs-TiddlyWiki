@@ -13,6 +13,18 @@ You can download AppJS with built in TiddlyWiki from the following download link
 * linux-32bit: https://github.com/downloads/sihorton/appjs-TiddlyWiki/appjs-tiddlywiki-linux-ia32.tar.gz
 * windows: https://github.com/downloads/sihorton/appjs-TiddlyWiki/appjs-tiddlywiki-win32.zip
 
+
+Advantages
+----------
+* taking the browser with you means it won't break after getting some kind of auto update.
+* no complex procedures or permissions dialogs are needed, it is able to save out of the box
+
+Disadvantages
+-------------
+* it takes extra space (20 meg+)
+* not all plugins / functions may work
+
+
 Developers
 ==========
 
