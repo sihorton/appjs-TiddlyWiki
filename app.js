@@ -19,7 +19,7 @@ window.on('ready', function(){
   window.module = module;
   /* hooks for TiddlyWiki to allow it to save*/
   window.readOnly = false;
-  window.isExternalJsSave = true;
+  window.allowSave = true;
   window.externalJsSave = function(fileUrl, content) {
 	if (fileUrl == '\\\\appjs\\') {
 		fileUrl = "data/content/index.html";
