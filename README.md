@@ -1,4 +1,4 @@
 appjs-TiddlyWiki
 ================
 
-TiddlyWiki ported to AppJS
+An experiment to port TiddlyWiki to AppJS
