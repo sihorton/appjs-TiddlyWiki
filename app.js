@@ -14,7 +14,6 @@ window.on('create', function(){
 });
 
 window.on('ready', function(){
-  console.log("Window Ready");
   window.require = require;
   window.process = process;
   window.module = module;
@@ -22,29 +21,36 @@ window.on('ready', function(){
   window.readOnly = false;
   window.isExternalJsSave = true;
   window.externalJsSave = function(fileUrl, content) {
-	fs.writeFile("data/content/index.html", content, function(err) {
+	if (fileUrl == '\\\\appjs\\') {
+		fileUrl = "data/content/index.html";
+	} else {
+		fileUrl = fileUrl.split('\\\\appjs\\').join('data/content/');
+	}
+	fs.writeFile(fileUrl, content, function(err) {
 		if(err) {
 			console.log(err);
 		} else {
 			console.log("The file was saved!",fileUrl);
 		}
-	}); 
+	});
 	return true;
   }
   window.externalJsLoad = function(fileUrl) {
-	console.log("loading file",fileUrl);
-	var contents = fs.readFileSync("data/content/index.html").toString('UTF-8');
-	console.log(contents);
-	return contents;
+	if (fileUrl == '\\\\appjs\\') {
+		fileUrl = "data/content/index.html";
+	} else {
+		fileUrl = fileUrl.split('\\\\appjs\\').join('data/content/');
+	}
+	
+	return fs.readFileSync(fileUrl).toString('UTF-8');
  }
   window.addEventListener('keydown', function(e){
     if (e.keyIdentifier === 'F12') {
 	  window.frame.openDevTools();
-	  
     }
   });
 });
 
 window.on('close', function(){
-  console.log("Window Closed");
+  //console.log("Window Closed");
 });
