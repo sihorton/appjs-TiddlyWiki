@@ -13,10 +13,12 @@ You can download AppJS with TiddlyWiki containing the AppJS plugin that lets you
 * linux-32bit: https://github.com/downloads/sihorton/appjs-TiddlyWiki/appjs-tiddlywiki-linux-ia32.tar.gz
 * windows: https://github.com/downloads/sihorton/appjs-TiddlyWiki/appjs-tiddlywiki-win32.zip
 
-The plugin extends the existing save code so that it will work from inside AppJS. To add the plugin to an existing project
-create a new tiddler and copy in the contents from this link: https://github.com/sihorton/appjs-TiddlyWiki/blob/master/AppJS-plugin-tiddler.txt
-You must give the tiddler a tag of "systemConfig" in order for it to work. Once the plugin is saved copy your TiddlyWiki
-to data/content/index.html in the above downloads and then run TiddlyWiki.exe or TiddlyWiki.sh
+Plugin
+======
+You can add your plugin to an existing TiddlyWiki by creating a new tiddler and copy in the contents from this link: 
+https://github.com/sihorton/appjs-TiddlyWiki/blob/master/AppJS-plugin-tiddler.txt
+You must give the tiddler a tag of "systemConfig" in order for it to work. Once the plugin tiddler is saved you can then
+replace data/content/index.html with your TiddlyWiki file.
 
 Advantages
 ----------
