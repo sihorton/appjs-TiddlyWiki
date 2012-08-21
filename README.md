@@ -10,8 +10,10 @@ Quick Download
 
 You can download AppJS with TiddlyWiki containing the AppJS plugin that lets you save changes:
 
-* linux-32bit: https://github.com/downloads/sihorton/appjs-TiddlyWiki/appjs-tiddlywiki-linux-ia32.tar.gz
 * windows: https://github.com/downloads/sihorton/appjs-TiddlyWiki/appjs-tiddlywiki-win32.zip
+* linux-32bit: https://github.com/downloads/sihorton/appjs-TiddlyWiki/appjs-tiddlywiki-linux-ia32.tar.gz
+* linux-64bit: https://github.com/downloads/sihorton/appjs-TiddlyWiki/appjs-tiddlywiki-linux-x64.tar.gz
+* mac: https://github.com/downloads/sihorton/appjs-TiddlyWiki/appjs-tiddlywiki-darwin-ia32.zip
 
 Plugin
 ======
