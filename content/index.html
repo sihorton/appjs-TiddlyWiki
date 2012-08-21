@@ -1331,12 +1331,7 @@ function main()
 	t3 = new Date();
 	invokeParamifier(params,"onload");
 	t4 = new Date();
-	/* AppJS Change */
-	if (window.isExternalJsSave) {
-		readOnly = false;
-	} else {
-		readOnly = (window.location.protocol == "file:") ? false : config.options.chkHttpReadOnly;
-	}
+	readOnly = (window.location.protocol == "file:") ? false : config.options.chkHttpReadOnly;
 	var pluginProblem = loadPlugins("systemConfig");
 	doc.trigger("loadPlugins");
 	t5 = new Date();
@@ -6940,7 +6935,7 @@ function saveChanges(onlyIfDirty,tiddlers)
 	var t0 = new Date();
 	var msg = config.messages;
 	var originalPath = document.location.toString();
-	/**AppJS Hack **/
+	/**AppJS Change **/
 	if (!window.isExternalJsSave) {
 		if(originalPath.substr(0,5) != "file:") {
 			alert(msg.notFileUrlError);
@@ -7230,8 +7225,10 @@ function copyFile(dest,source)
 
 function saveFile(fileUrl,content)
 {
-	/** AppJS Hack **/
+	/** AppJS Changed **/
 	if (window.isExternalJsSave) {
+		console.log('externalJsSave called',fileUrl);
+		//console.log(content);
 		return window.externalJsSave(fileUrl,content);
 	} else {
 		var r = mozillaSaveFile(fileUrl,content);
@@ -7245,7 +7242,9 @@ function saveFile(fileUrl,content)
 
 function loadFile(fileUrl)
 {
+	/** AppJS Change **/
 	if (window.isExternalJsSave) {
+		console.info('externalJsLoad called',fileUrl);
 		return window.externalJsLoad(fileUrl);
 	} else {
 		var r = mozillaLoadFile(fileUrl);
