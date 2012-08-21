@@ -1,3 +1,7 @@
+/**
+* TiddlyWiki running inside AppJS.
+* @author: github.com/sihorton
+*/
 var app = module.exports = require('appjs');
 var fs = require('fs');
 app.serveFilesFrom(__dirname + '/content');
@@ -28,9 +32,9 @@ window.on('ready', function(){
 	}
 	fs.writeFile(fileUrl, content, function(err) {
 		if(err) {
-			console.log(err);
+			console.log("error saving:",err);
 		} else {
-			console.log("The file was saved!",fileUrl);
+			console.log("saved:",fileUrl);
 		}
 	});
 	return true;
