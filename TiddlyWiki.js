@@ -26,7 +26,7 @@ window.on('ready', function(){
   window.allowSave = true;
   window.externalJsSave = function(fileUrl, content) {
 	if (fileUrl == '\\\\appjs\\') {
-		fileUrl = "data/content/index.html";
+		fileUrl = __dirname+"/content/index.html";
 	} else {
 		fileUrl = fileUrl.split('\\\\appjs\\').join('data/content/');
 	}
@@ -41,7 +41,7 @@ window.on('ready', function(){
   }
   window.externalJsLoad = function(fileUrl) {
 	if (fileUrl == '\\\\appjs\\') {
-		fileUrl = "data/content/index.html";
+		fileUrl = __dirname+"/content/index.html";
 	} else {
 		fileUrl = fileUrl.split('\\\\appjs\\').join('data/content/');
 	}
