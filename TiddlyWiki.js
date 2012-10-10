@@ -2,8 +2,6 @@
 * TiddlyWiki running inside AppJS.
 * @author: github.com/sihorton
 *
-* Modified by github.com/JohnHind
-* Added ability to pass filename or full file path of TiddlyWiki file as parameter:
 * TiddlyWiki                                ;index.html in data/content (as before)
 * TiddlyWiki empty.html                     ;empty.html in data/content
 * TiddlyWiki K:\Notes\Wisdom.html           ;Wisdom.html in K:\Notes\ (on Windows)
@@ -14,25 +12,25 @@
 var app = module.exports = require('appjs');
 var fs = require('fs');
 
-var dx = "";
-var fn = "";
+var wikiDir = "";
+var wikiFile = "";
 var s = process.argv[2];
 var p = 0;
 if (s) {
   s = s.replace(/\\/g, "/");
   p = s.lastIndexOf("/");
   if (p > 0) {
-    dx = s.substring(0, p);
-    fn = s.substring(p);
+    wikiDir = s.substring(0, p);
+    wikiFile = s.substring(p);
   } else {
-    fn = "/" + s;
+    wikiFile = "/" + s;
   }
 }
-if (dx.length < 1) dx = __dirname + "/content";
-if (fn.length < 1) fn = "/index.html";
-app.serveFilesFrom(dx);
+if (wikiDir.length < 1) wikiDir = __dirname + "/content";
+if (wikiFile.length < 1) wikiFile = "/index.html";
+app.serveFilesFrom(wikiDir);
 
-var window = app.createWindow("http://appjs" + fn, {
+var window = app.createWindow("http://appjs" + wikiFile, {
 /**
   width  : 640,
   height : 460,
@@ -53,12 +51,8 @@ window.on('ready', function(){
   window.readOnly = false;
   window.allowSave = true;
   window.externalJsSave = function(fileUrl, content) {
-    if (fileUrl == '\\\\appjs\\') {
-      fileUrl = dx + fn;
-    } else {
-      fileUrl = fileUrl.split('\\\\appjs\\').join("");
-      fileUrl = dx + "/" + fileUrl;
-    }
+    fileUrl = fileUrl.split('\\\\appjs\\').join("");
+    fileUrl = wikiDir + "/" + fileUrl;
     fs.writeFile(fileUrl, content, function(err) {
       if(err) {
         console.log("error saving:",err);
@@ -69,12 +63,8 @@ window.on('ready', function(){
     return true;
   }
   window.externalJsLoad = function(fileUrl) {
-    if (fileUrl == '\\\\appjs\\') {
-      fileUrl = dx + fn;
-    } else {
-      fileUrl = fileUrl.split('\\\\appjs\\').join("");
-      fileUrl = dx + "/" + fileUrl;
-    }
+    fileUrl = fileUrl.split('\\\\appjs\\').join("");
+    fileUrl = wikiDir + "/" + fileUrl;
     return fs.readFileSync(fileUrl).toString('UTF-8');
   }
   window.addEventListener('keydown', function(e){
