@@ -511,9 +511,10 @@ noscript {display:none;} /* Fixes a feature in Firefox 1.5.0.2 where print previ
 /** 
 AppJS Support tested with TikiWiki 2.6.5 October 15, 2012
 **/
+console.log(document.location.protocol);
 window.allowSave = function()
 {
-	return (originalPath.substr(0,5) == 'file:');
+	return (document.location.protocol == 'file:');
 }
 
 window.saveChanges = function(onlyIfDirty,tiddlers)
@@ -7042,7 +7043,7 @@ function saveChanges(onlyIfDirty,tiddlers)
 	if(config.options.chkGenerateAnRssFeed && saveRss instanceof Function)
 		saveRss(localPath);
 	if(config.options.chkDisplayInstrumentation)
-		displayMessage("saveChanges " + (new Date()-t0) + " ms");
+		displayMessage(" " + (new Date()-t0) + " ms");
 }
 
 function saveMain(localPath,original,posDiv)

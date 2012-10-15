@@ -4,7 +4,7 @@ AppJS Support tested with TikiWiki 2.6.5 October 15, 2012
 **/
 window.allowSave = function()
 {
-	return (originalPath.substr(0,5) == 'file:');
+	return (document.location.protocol == 'file:');
 }
 
 window.saveChanges = function(onlyIfDirty,tiddlers)
