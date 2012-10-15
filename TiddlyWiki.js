@@ -1,6 +1,7 @@
 /**
 * TiddlyWiki running inside AppJS.
 * @author: github.com/sihorton
+* @author: github.com/JohnHind
 *
 * TiddlyWiki                                ;index.html in data/content
 * TiddlyWiki empty.html                     ;empty.html in data/content
