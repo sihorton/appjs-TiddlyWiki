@@ -33,9 +33,11 @@ Disadvantages
 Developers
 ==========
 
-Upon startup AppJS adds an allowSave flag together with an externalJsSave() function and externalJsLoad() function. These 
-functions allow TiddlyWiki to use the nodejs backend to load and save files. The plugin notices these functions and uses them
-to read and write the TiddlyWiki file.
-
-
+AppJS is customised to host TiddlyWiki (TW) which may be supplied on the command line, taken by default from the 'content'
+folder or dragged and dropped onto the AppJS browser window. AppJS supplies a customised UserAgent string which causes the
+plugin inside TW to hijack 'getLocalPath', 'loadFile' and 'saveFile' functions which it delegates to functions supplied by
+the customised AppJS. To enable TW to save when loaded from an AppJS URL, the Plugin hijacks 'saveChanges' to use a
+new 'allowSave' function. When running in a standard browser, this hijack behaves identically to original TW code. When
+running in the customised AppJS, 'allowSave' is hijacked again to make saving unconditional. Other plugins which use
+'saveFile' should be adapted to use 'allowSave' rather than hard-coding a test for the "file:" URL prefix.
 
