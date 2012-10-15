@@ -42,6 +42,7 @@ DAMAGE.
 <!--{{{-->
 <link rel='alternate' type='application/rss+xml' title='RSS' href='index.xml' />
 <!--}}}-->
+
 <!--PRE-HEAD-END-->
 <title> My TiddlyWiki - a reusable non-linear personal web notebook </title>
 <style id="styleArea" type="text/css">
@@ -54,10 +55,12 @@ DAMAGE.
 #javascriptWarning {width:100%; text-align:center; font-weight:bold; background-color:#dd1100; color:#fff; padding:1em 0em;}
 </style>
 <!--POST-HEAD-START-->
+
 <!--POST-HEAD-END-->
 </head>
 <body onload="main();" onunload="if(window.unload) unload();">
 <!--PRE-BODY-START-->
+
 <!--PRE-BODY-END-->
 <div id="copyright">
 Welcome to TiddlyWiki created by Jeremy Ruston; Copyright &copy; 2004-2007 Jeremy Ruston, Copyright &copy; 2007-2011 UnaMesa Association
@@ -503,11 +506,16 @@ noscript {display:none;} /* Fixes a feature in Firefox 1.5.0.2 where print previ
 </div></div>
 <!--POST-SHADOWAREA-->
 <div id="storeArea">
-<div title="AppJS" creator="AppJS" modifier="AppJS" created="201208211941" modified="201208211952" tags="systemConfig" changecount="6">
+<div title="AppJS" creator="AppJS" modifier="YourName" created="201208211941" modified="201210151004" tags="systemConfig" changecount="14">
 <pre>//{{{
-/**
-AppJS Support tested with TikiWiki 2.6.5 October 6, 2011
+/** 
+AppJS Support tested with TikiWiki 2.6.5 October 15, 2012
 **/
+window.allowSave = function()
+{
+	return (originalPath.substr(0,5) == 'file:');
+}
+
 window.saveChanges = function(onlyIfDirty,tiddlers)
 {
 	if(onlyIfDirty &amp;&amp; !store.isDirty())
@@ -516,14 +524,13 @@ window.saveChanges = function(onlyIfDirty,tiddlers)
 	var t0 = new Date();
 	var msg = config.messages;
 	var originalPath = document.location.toString();
-	/** AppJS added !window['allowSave']**/
-	if ((originalPath.substr(0,5) != 'file:') &amp;&amp; !window['allowSave']) { 
+	/** AppJS moved test to a function so it can be hijacked **/
+	if (!window.allowSave()) { 
 		alert(msg.notFileUrlError);
 		if(store.tiddlerExists(msg.saveInstructions))
 			story.displayTiddler(null,msg.saveInstructions);
 		return;
 	}
-
 	var localPath = getLocalPath(originalPath);
 	var original = loadOriginal(localPath);
 	if(original == null) {
@@ -548,31 +555,31 @@ window.saveChanges = function(onlyIfDirty,tiddlers)
 		displayMessage(&quot;saveChanges &quot; + (new Date()-t0) + &quot; ms&quot;);
 }
 
-window.saveFile = function(fileUrl,content)
+config.tasks.save.action = window.saveChanges;
+
+if(config.userAgent.indexOf(&quot;appjstw&quot;) != -1)
 {
-	var r = mozillaSaveFile(fileUrl,content);
-	if(!r &amp;&amp; window['externalJsSave']) 
-		r = window.externalJsSave(fileUrl,content); /** AppJS **/
-	if(!r)
-		r = ieSaveFile(fileUrl,content);
-	if(!r)
-		r = javaSaveFile(fileUrl,content);
-	return r;
+	// The AppJS browser can always load and save using its external functions.
+	window.allowSave = function()
+	{
+		return true;
+	}
+
+    window.getLocalPath = function(fileUrl)
+    {
+        return window.externalJsPath(fileUrl);
+    }
+
+	window.saveFile = function(filePath,content)
+	{
+		return window.externalJsSave(filePath,content);
+	}
+
+	window.loadFile = function(filePath)
+	{
+		return window.externalJsLoad(filePath);
+	}	
 }
-
-window.loadFile = function(fileUrl)
-{
-	var r = mozillaLoadFile(fileUrl);
-	if(((r == null) || (r == false)) &amp;&amp; window['externalJsLoad']) 
-		r = window.externalJsLoad(fileUrl); /** AppJS **/
-	if((r == null) || (r == false))
-		r = ieLoadFile(fileUrl);
-	if((r == null) || (r == false))
-		r = javaLoadFile(fileUrl);
-	return r;
-}
-
-
 //}}}
 </pre>
 </div>
@@ -7014,7 +7021,6 @@ function saveChanges(onlyIfDirty,tiddlers)
 			story.displayTiddler(null,msg.saveInstructions);
 		return;
 	}
-
 	var localPath = getLocalPath(originalPath);
 	var original = loadOriginal(localPath);
 	if(original == null) {
@@ -10272,6 +10278,7 @@ if(useJavaSaver)
 //]]>
 </script>
 <!--POST-SCRIPT-START-->
+
 <!--POST-SCRIPT-END-->
 </body>
 </html>

@@ -2,39 +2,32 @@
 * TiddlyWiki running inside AppJS.
 * @author: github.com/sihorton
 *
-* TiddlyWiki                                ;index.html in data/content (as before)
+* TiddlyWiki                                ;index.html in data/content
 * TiddlyWiki empty.html                     ;empty.html in data/content
 * TiddlyWiki K:\Notes\Wisdom.html           ;Wisdom.html in K:\Notes\ (on Windows)
 * TiddlyWiki /Volumes/key/Notes/Wisdom.html ;Wisdom.html in /Volumes/key/Notes/ (on a Mac)
 * (On Windows use, "TiddlyWiki.exe", on other systems "TiddlyWiki.sh")
-* Internally, the TiddlyWiki may access other files in the same directory using "http://appjs/{filename}"
+* Internally, the TiddlyWiki may access other files in the same directory using "{wikiUrl}/{filename}"
 */
 var app = module.exports = require('appjs');
 var fs = require('fs');
+var path = require('path');
 
-var wikiDir = "";
+var wikiDir = ".";
 var wikiFile = "";
+var wikiUrl = "http://AppJS";
 var s = process.argv[2];
-var p = 0;
 if (s) {
-  s = s.replace(/\\/g, "/");
-  p = s.lastIndexOf("/");
-  if (p > 0) {
-    wikiDir = s.substring(0, p);
-    wikiFile = s.substring(p);
-  } else {
-    wikiFile = "/" + s;
-  }
+	wikiDir = path.dirname(s);
+	wikiFile = path.basename(s);
 }
-if (wikiDir.length < 1) wikiDir = __dirname + "/content";
-if (wikiFile.length < 1) wikiFile = "/index.html";
+if (wikiDir === ".") wikiDir = path.join(__dirname, "content");
+if (wikiFile === "") wikiFile = "index.html";
+
 app.serveFilesFrom(wikiDir);
 
-var window = app.createWindow("http://appjs" + wikiFile, {
-/**
-  width  : 640,
-  height : 460,
-**/
+var window = app.createWindow(wikiUrl + "/" + wikiFile, {
+  url : wikiUrl,
   icons  : __dirname + '/content/icons'
 });
 
@@ -44,28 +37,32 @@ window.on('create', function(){
 });
 
 window.on('ready', function(){
-  window.require = require;
-  window.process = process;
-  window.module = module;
   /* hooks for TiddlyWiki to allow it to save*/
-  window.readOnly = false;
-  window.allowSave = true;
-  window.externalJsSave = function(fileUrl, content) {
-    fileUrl = fileUrl.split('\\\\appjs\\').join("");
-    fileUrl = wikiDir + "/" + fileUrl;
-    fs.writeFile(fileUrl, content, function(err) {
-      if(err) {
-        console.log("error saving:",err);
-      } else {
-        console.log("saved:",fileUrl);
-      }
-    });
-    return true;
+  window.externalJsPath = function(fileUrl) {
+    //console.log("JsPath in: " + fileUrl);
+	if(fileUrl.toLowerCase().indexOf(wikiUrl.toLowerCase() + "/") == 0) {
+        fileUrl = fileUrl.substr(wikiUrl.length + 1);
+    }else if(fileUrl.toLowerCase().indexOf("file://") == 0) {
+        fileUrl = fileUrl.substr(7);
+        if(fileUrl.charAt(2) == ':') fileUrl = fileUrl.substr(1);
+    }
+	fileUrl = path.resolve(wikiDir, fileUrl);
+	fileUrl = fileUrl.split("/").join(path.sep);
+	//console.log("JsPath out: " + fileUrl);
+	return fileUrl;
   }
-  window.externalJsLoad = function(fileUrl) {
-    fileUrl = fileUrl.split('\\\\appjs\\').join("");
-    fileUrl = wikiDir + "/" + fileUrl;
-    return fs.readFileSync(fileUrl).toString('UTF-8');
+  window.externalJsSave = function(filePath, content) {
+    //console.log("JsSave: " + filePath);
+	try{
+		fs.writeFileSync(filePath, content);
+		return true;
+	}catch (err){
+		return false;
+	}
+  }
+  window.externalJsLoad = function(filePath) {
+    //console.log("JsLoad: " + filePath);
+    return fs.readFileSync(filePath).toString('UTF-8');
   }
   window.addEventListener('keydown', function(e){
     if (e.keyIdentifier === 'F12') {
