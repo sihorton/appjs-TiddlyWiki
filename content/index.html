@@ -7042,7 +7042,7 @@ function saveChanges(onlyIfDirty,tiddlers)
 	if(config.options.chkGenerateAnRssFeed && saveRss instanceof Function)
 		saveRss(localPath);
 	if(config.options.chkDisplayInstrumentation)
-		displayMessage(" " + (new Date()-t0) + " ms");
+		displayMessage("saveChanges " + (new Date()-t0) + " ms");
 }
 
 function saveMain(localPath,original,posDiv)
